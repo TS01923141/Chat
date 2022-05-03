@@ -60,7 +60,6 @@ private val ChatBubbleRightShape = RoundedCornerShape(20.dp, 4.dp, 20.dp, 20.dp)
 @Composable
 fun ChatScreen(
     onMessageSent: (String) -> Unit,
-    messageList: MutableList<Message> = mutableListOf(),
     messageListFlow: StateFlow<List<Message>>,
     coroutineScope : CoroutineScope = rememberCoroutineScope()
 ) {
@@ -72,7 +71,7 @@ fun ChatScreen(
     val dismissKeyboard = {
         focusManager.clearFocus()
         currentInputSelector = InputSelector.NONE }
-//    val messageList by messageListFlow.collectAsState()
+    val messageList by messageListFlow.collectAsState()
 //    fun resetScroll() = coroutineScope.launch {
 //        listState.animateScrollToItem(0)
 //    }

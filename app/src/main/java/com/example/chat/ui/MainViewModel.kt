@@ -17,24 +17,15 @@ class MainViewModel: ViewModel() {
 
     suspend fun addMessage(text: String) {
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-//        val list: MutableList<Message> = _messageListFlow.first()
-//        list.add(0,
-//            Message(
-//                "me",
-//                text,
-//                dateFormat.format(Calendar.getInstance().timeInMillis)
-//            ))
-//        _messageListFlow.emit(list)
-        messageList.add(0,
-            Message(
-                "me",
-                text,
-                dateFormat.format(Calendar.getInstance().timeInMillis)
-            ))
-//        for (message in _messageList.first()) {
-//            Log.d(TAG, "addMessage: message.content: ${message.content}")
-//        }
+        _messageListFlow.emit(_messageListFlow.value.apply {
+            add(0,
+                Message(
+                    "me",
+                    text,
+                    dateFormat.format(Calendar.getInstance().timeInMillis)
+                )
+            )
+        })
     }
-    var messageList : MutableList<Message> = mutableStateListOf(*initialMessages.toTypedArray())
 
 }

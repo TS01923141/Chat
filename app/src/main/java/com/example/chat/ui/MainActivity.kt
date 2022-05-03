@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity() {
                                 viewModel.addMessage(text)
                             }
                         },
-                        messageList = viewModel.messageList,
                         messageListFlow = viewModel.messageListFlow,
                         coroutineScope = coroutineScope
                     )
