@@ -7,6 +7,7 @@ import com.example.chat.model.data.initialMessages
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,15 +18,17 @@ class MainViewModel: ViewModel() {
 
     suspend fun addMessage(text: String) {
         val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        _messageListFlow.emit(_messageListFlow.value.apply {
-            add(0,
-                Message(
-                    "me",
-                    text,
-                    dateFormat.format(Calendar.getInstance().timeInMillis)
-                )
+        val list: MutableList<Message> = mutableListOf()
+        list.addAll(_messageListFlow.value)
+        list.add(0,
+            Message(
+                "me",
+                text,
+                dateFormat.format(Calendar.getInstance().timeInMillis)
             )
-        })
+        )
+        _messageListFlow.emit(list)
     }
+    var messageList : MutableList<Message> = mutableStateListOf(*initialMessages.toTypedArray())
 
 }

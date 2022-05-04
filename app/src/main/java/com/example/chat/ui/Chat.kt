@@ -72,9 +72,9 @@ fun ChatScreen(
         focusManager.clearFocus()
         currentInputSelector = InputSelector.NONE }
     val messageList by messageListFlow.collectAsState()
-//    fun resetScroll() = coroutineScope.launch {
-//        listState.animateScrollToItem(0)
-//    }
+    fun resetScroll() = coroutineScope.launch {
+        listState.animateScrollToItem(0)
+    }
 
     Scaffold (
         topBar = { TitleBar(title = "Chat", {}) },
@@ -87,14 +87,14 @@ fun ChatScreen(
                     // Reset text field and close keyboard
                     textState = TextFieldValue()
                     // Move scroll to bottom
-//                    resetScroll()
-                    dismissKeyboard()
+                    resetScroll()
+//                    dismissKeyboard()
                 },
                 keyboardShown = currentInputSelector == InputSelector.NONE && textFieldFocusState,
                 onTextFieldFocused = { focused ->
                     if (focused) {
                         currentInputSelector = InputSelector.NONE
-//                        resetScroll()
+                        resetScroll()
                     }
                     textFieldFocusState = focused
                 },
