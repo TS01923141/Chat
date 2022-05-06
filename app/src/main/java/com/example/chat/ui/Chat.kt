@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
@@ -128,38 +129,6 @@ private fun PreviewChatScreen() {
     }
 }
 
-@Composable
-fun TitleBar(title: String, onBackClick: () -> Unit) {
-    Surface(elevation = 4.dp) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            IconButton(onClick = { onBackClick.invoke() }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_arrow_back_ios_new_24),
-                    contentDescription = null
-                )
-            }
-            Text(
-                text = title,
-                modifier = Modifier.align(Alignment.CenterVertically),
-                style = MaterialTheme.typography.subtitle1
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewTitleBar() {
-    ChatTheme {
-        Surface {
-            TitleBar(
-                "Chat",
-                {}
-            )
-        }
-    }
-}
-
 val KeyboardShownKey = SemanticsPropertyKey<Boolean>("KeyboardShownKey")
 var SemanticsPropertyReceiver.keyboardShownProperty by KeyboardShownKey
 
@@ -174,7 +143,7 @@ fun InputBar(
     focusState: Boolean,
     modifier : Modifier = Modifier
 ) {
-    Surface(color = MaterialTheme.colors.secondary, modifier = modifier) {
+    Surface(modifier = modifier.shadow(4.dp)) {
         val a11ylabel = stringResource(id = R.string.textfield_desc)
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -198,7 +167,7 @@ fun InputBar(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp))
-                        .background(MaterialTheme.colors.background)
+                        .background(MaterialTheme.colors.secondary.copy(alpha = 0.4f))
                         .padding(8.dp)
                         .align(Alignment.CenterStart)
                         .onFocusChanged { state ->
@@ -222,11 +191,11 @@ fun InputBar(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(4.dp, 4.dp, 4.dp, 4.dp))
-                            .background(MaterialTheme.colors.background)
+                            .background(MaterialTheme.colors.secondary.copy(alpha = 0.4f))
                             .padding(8.dp)
                             .align(Alignment.CenterStart),
                         text = stringResource(id = R.string.textfield_hint),
-                        style = MaterialTheme.typography.body1.copy(color = MaterialTheme.colors.secondary)
+                        style = MaterialTheme.typography.body1
                     )
                 }
             }
@@ -234,7 +203,8 @@ fun InputBar(
             //send
             Button(
                 enabled = textFieldValue.text.isNotEmpty(),
-                onClick = { onMessageSent() }, modifier = Modifier
+                onClick = { onMessageSent() },
+                modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .clip(CircleShape)
                     .background(MaterialTheme.colors.primary)
@@ -268,7 +238,6 @@ private fun PreviewInputBar() {
 
 @Composable
 fun ChatList(userName: String, messageList: List<Message>, listState: LazyListState, modifier: Modifier = Modifier) {
-    Log.d(TAG, "ChatList: messageList.size: ${messageList.size}")
     LazyColumn(modifier = modifier, reverseLayout = true, state = listState) {
         itemsIndexed(messageList) { index, message ->
             val prevAuthor = messageList.getOrNull(index - 1)?.author
@@ -282,21 +251,6 @@ fun ChatList(userName: String, messageList: List<Message>, listState: LazyListSt
                 content = message.content
             )
         }
-//        for (index in messageList.indices) {
-//            val prevAuthor = messageList.getOrNull(index - 1)?.author
-//            val nextAuthor = messageList.getOrNull(index + 1)?.author
-//            val message = messageList[index]
-//            item {
-//                ChatItem(
-//                    avatorPath = message.authorImage,
-//                    author = message.author,
-//                    publishTime = message.timestamp,
-//                    isFirstMessageByAuthor = prevAuthor != message.author,
-//                    isUserMe = userName == message.author,
-//                    content = message.content
-//                )
-//            }
-//        }
     }
 }
 

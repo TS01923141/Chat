@@ -67,6 +67,33 @@ val initialMessages = listOf(
     )
 )
 
+@Immutable
+data class User(
+    val userId: String,
+    val userName: String,
+    val content: String,
+    val timestamp: String,
+    val unreadCount: Int,
+    val authorImage: Int = R.drawable.ic_baseline_person_24
+)
+
+val initialUsers = listOf(
+    User(
+        "1",
+        "Taylor Brooks",
+        "test",
+        "8:01 PM",
+        1
+    ),
+    User(
+        "2",
+        "Ali Conors",
+        "test test test test test test test test test test ",
+        "8:02 PM",
+        6
+    )
+)
+
 //val exampleUiState = ConversationUiState(
 //    initialMessages = initialMessages,
 //    channelName = "#composers",

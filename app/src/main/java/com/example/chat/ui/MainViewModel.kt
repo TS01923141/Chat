@@ -29,6 +29,4 @@ class MainViewModel: ViewModel() {
         )
         _messageListFlow.emit(list)
     }
-    var messageList : MutableList<Message> = mutableStateListOf(*initialMessages.toTypedArray())
-
 }
